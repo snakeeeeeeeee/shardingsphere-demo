@@ -1,0 +1,18 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://117.48.205.22:33006/playlist
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: ds0.user_$->{0..1}
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: user_$->{id % 2}
